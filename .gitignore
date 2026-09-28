@@ -1,0 +1,5 @@
+# 站点自身以外的文件，不上传
+.workbuddy/
+.DS_Store
+Thumbs.db
+*.zip

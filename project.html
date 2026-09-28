@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>项目 · Jinia</title>
+<meta name="description" content="产品设计课程作业的完整记录：背景、我的部分、过程、图，以及还没补上的部分。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23fbfaf8'/%3E%3Cpath d='M16 4 L27 19 H5 Z' fill='%2316150f'/%3E%3Crect x='14.5' y='17' width='3' height='11' fill='%2316150f'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到主要内容</a>
+<script src="assets/js/art.js"></script>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="index.html"><span data-site="name">Jinia</span><span class="brand__dot">.</span></a>
+    <nav class="nav" aria-label="主导航">
+      <a href="index.html">首页</a>
+      <a href="design.html">设计</a>
+      <a href="blog.html">随笔</a>
+      <a href="life.html">生活</a>
+      <a href="about.html">关于</a>
+    </nav>
+    <button class="burger" id="burger" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="menu"><i></i></button>
+  </div>
+</header>
+
+<div class="menu" id="menu" data-open="false" role="dialog" aria-modal="true" aria-label="导航">
+  <nav class="menu__nav">
+    <a href="index.html">首页<span>Home</span></a>
+    <a href="design.html">设计<span>Design</span></a>
+    <a href="blog.html">随笔<span>Journal</span></a>
+    <a href="life.html">生活<span>Life</span></a>
+    <a href="about.html">关于<span>About</span></a>
+  </nav>
+  <div class="menu__foot">
+    <a data-mail href="#">1940215417@qq.com</a>
+  </div>
+</div>
+
+<main id="main">
+  <div class="wrap" id="projBody">
+
+    <section class="phead proj__head">
+      <p class="eyebrow"><a href="design.html">← 返回设计</a></p>
+      <h1 class="phead__t" id="projTitle"></h1>
+      <p class="proj__en" id="projEn"></p>
+      <p class="article__meta" id="projMeta"><span id="projTag"></span></p>
+      <p class="phead__d" id="projDesc"></p>
+    </section>
+
+    <figure class="proj__fig">
+      <div class="frame frame--wide" id="projFrame"></div>
+      <figcaption class="cap" id="projCap"></figcaption>
+    </figure>
+
+    <section class="sec">
+      <div class="sec__head">
+        <h2 class="sec__title">基本信息<span>Info</span></h2>
+      </div>
+      <div class="rows" id="projRows"></div>
+    </section>
+
+    <section class="sec two">
+      <div>
+        <div class="sec__head">
+          <h2 class="sec__title">题目<span>Brief</span></h2>
+        </div>
+        <p class="lead" id="projBrief"></p>
+      </div>
+      <div>
+        <div class="sec__head">
+          <h2 class="sec__title">这个项目还缺<span>To fill</span></h2>
+          <p class="sec__note">我自己记的清单</p>
+        </div>
+        <ul class="todo-list" id="projTodo"></ul>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec__head">
+        <h2 class="sec__title">过程<span>Process</span></h2>
+        <p class="sec__note">按项目的推进顺序排</p>
+      </div>
+      <ul class="steps" id="projSteps"></ul>
+    </section>
+
+    <section class="sec">
+      <div class="sec__head">
+        <h2 class="sec__title">图<span>Images</span></h2>
+        <p class="sec__note">现在是占位图形</p>
+      </div>
+      <div class="gallery" id="projGallery"></div>
+    </section>
+
+    <section class="sec">
+      <div class="sec__head">
+        <h2 class="sec__title">其他项目<span>More</span></h2>
+        <a class="tlink tlink--quiet" href="design.html">全部作品</a>
+      </div>
+      <div class="wgrid wgrid--2" id="projOther"></div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__top">
+      <div>
+        <p class="ftr__name"><span data-site="name">Jinia</span><em>.</em></p>
+        <p class="ftr__line" data-site="footerLine"></p>
+      </div>
+      <div class="ftr__nav">
+        <p class="ftr__h">目录</p>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="design.html">设计</a></li>
+          <li><a href="blog.html">随笔</a></li>
+          <li><a href="life.html">生活</a></li>
+          <li><a href="about.html">关于</a></li>
+        </ul>
+      </div>
+      <div class="ftr__contact">
+        <p class="ftr__h">联系</p>
+        <a data-mail href="#">1940215417@qq.com</a>
+      </div>
+    </div>
+    <div class="ftr__bottom">
+      <span>© <span data-year>2026</span> <span data-site="name">Jinia</span></span>
+      <span data-site="copyright"></span>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lightbox" data-open="false" role="dialog" aria-modal="true" aria-label="图片查看">
+  <button class="lb__x" id="lbClose" type="button" aria-label="关闭">×</button>
+  <div class="lb__stage" id="lbStage"></div>
+  <p class="lb__cap" id="lbCap"></p>
+</div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

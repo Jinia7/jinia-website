@@ -520,8 +520,27 @@
     var items = $$("[data-reveal]");
     if (!items.length) return;
 
+    // 容器里有多张卡片时，让它们依次弹入：每张差 60ms，最多等 420ms
+    // 用脚本加 class，脚本没跑时卡片照常可见，不会白屏
+    items.forEach(function (el) {
+      var kids = Array.prototype.slice.call(el.children);
+      if (kids.length < 2) return;
+      el.__stagger = kids;
+      kids.forEach(function (k, i) {
+        k.classList.add("rv");
+        k.style.animationDelay = Math.min(i * 60, 420) + "ms";
+      });
+    });
+
+    function show(el) {
+      el.classList.add("is-in");
+      if (el.__stagger) {
+        el.__stagger.forEach(function (k) { k.classList.add("is-in"); });
+      }
+    }
+
     if (!("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.add("is-in"); });
+      items.forEach(show);
       return;
     }
     var io = new IntersectionObserver(function (entries) {
@@ -530,7 +549,7 @@
         var el = en.target;
         var delay = parseFloat(el.getAttribute("data-reveal")) || 0;
         el.style.transitionDelay = delay + "s";
-        el.classList.add("is-in");
+        show(el);
         io.unobserve(el);
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });

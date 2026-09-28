@@ -33,6 +33,13 @@
   --hdr-h: 72px;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* 交互层：轻回弹的弹性缓动 + 统一时长（幅度克制，位移 2–3px、旋转 ≤1°） */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 0.18s;
+  --dur: 0.32s;
+  --dur-slow: 0.55s;
+  --lift: 3px;
+  --press: 1px;
 }
 
 /* ---------- 02 base ---------- */
@@ -61,6 +68,14 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 img, svg { display: block; max-width: 100%; }
 
 a { color: inherit; text-decoration: none; }
+
+/* 键盘焦点：全站统一的高对比焦点态，比浏览器默认更清楚
+   （鼠标点击不会触发，只有 Tab 走查时出现） */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
 
 button {
   font: inherit;
@@ -153,17 +168,19 @@ body::after {
   color: var(--ink);
   padding-bottom: 3px;
   border-bottom: 1px solid var(--line-2);
-  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease),
+    transform var(--dur) var(--ease-spring);
 }
 .tlink::after {
   content: "";
   width: 18px; height: 1px;
   background: currentColor;
   transform-origin: left;
-  transition: transform 0.35s var(--ease);
+  transition: transform var(--dur) var(--ease-spring);
 }
 .tlink:hover { border-color: var(--accent); color: var(--accent); }
 .tlink:hover::after { transform: scaleX(1.5); }
+.tlink:active { transform: translateY(var(--press)); }
 
 .tlink--quiet { color: var(--muted); border-bottom-color: transparent; }
 .tlink--quiet:hover { color: var(--accent); }
@@ -229,7 +246,9 @@ body::after {
   margin-right: -10px;
   align-items: center;
   justify-content: center;
+  transition: transform var(--dur) var(--ease-spring);
 }
+.burger:active { transform: scale(0.92); }
 .burger i {
   position: relative;
   display: block;
@@ -502,9 +521,10 @@ body[data-lock="true"] { overflow: hidden; }
   align-items: start;
   padding-block: clamp(18px, 2.4vw, 26px);
   border-bottom: 1px solid var(--line);
-  transition: opacity 0.3s var(--ease);
+  transition: opacity 0.3s var(--ease), transform var(--dur) var(--ease-spring);
 }
-.pitem:hover { opacity: 0.72; }
+.pitem:hover { opacity: 0.72; transform: translateX(3px); }
+.pitem:active { transform: translateX(1px) scale(0.998); }
 .pitem__n {
   font-family: var(--serif);
   font-size: 0.8125rem;
@@ -566,10 +586,19 @@ body[data-lock="true"] { overflow: hidden; }
 }
 .wgrid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-.wcard { display: block; }
-.wcard .frame { transition: background-color 0.4s var(--ease); }
+.wcard {
+  display: block;
+  transition: transform var(--dur) var(--ease-spring);
+}
+.wcard .frame {
+  transition: background-color 0.4s var(--ease),
+    transform var(--dur) var(--ease-spring);
+}
 .wcard .art { transition: transform 0.9s var(--ease); }
+.wcard:hover { transform: translateY(calc(var(--lift) * -1)); }
+.wcard:hover .frame { transform: rotate(-0.6deg); }
 .wcard:hover .art { transform: scale(1.035); }
+.wcard:active { transform: translateY(0) scale(0.996); }
 .wcard__idx {
   display: flex;
   align-items: baseline;
@@ -636,9 +665,14 @@ body[data-lock="true"] { overflow: hidden; }
 .pgrid > .c9 { grid-column: span 9; }
 
 .ph { display: block; text-align: left; width: 100%; }
-.ph .frame { cursor: zoom-in; }
+.ph .frame {
+  cursor: zoom-in;
+  transition: transform var(--dur) var(--ease-spring);
+}
 .ph .art { transition: transform 0.9s var(--ease); }
+.ph:hover .frame { transform: rotate(0.5deg); }
 .ph:hover .art { transform: scale(1.04); }
+.ph:active .frame { transform: rotate(0.5deg) scale(0.992); }
 .ph__cap {
   margin-top: 9px;
   font-size: 0.75rem;
@@ -908,9 +942,15 @@ body[data-lock="true"] { overflow: hidden; }
   color: var(--muted);
   border: 1px solid var(--line-2);
   border-radius: 50%;
-  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease),
+    transform var(--dur) var(--ease-spring);
 }
-.lb__x:hover { color: var(--accent); border-color: var(--accent); }
+.lb__x:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: rotate(90deg);
+}
+.lb__x:active { transform: rotate(90deg) scale(0.9); }
 
 /* ---------- 11.5 手写感 / 胶带 / 待补充 ---------- */
 .hand,
@@ -964,9 +1004,13 @@ a.todo { text-decoration: none; }
   mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   transform: rotate(-4deg);
   pointer-events: none;
+  transition: transform var(--dur) var(--ease-spring);
 }
 .tape--tl { top: -11px; left: 18px; }
 .tape--tr { top: -11px; right: 18px; transform: rotate(4deg); }
+/* 便签抬起时，胶带跟着翘一点，像真的被掀了一下 */
+.mcard:hover .tape--tl,
+.mcard:hover .tape--tr { transform: rotate(-7deg); }
 
 /* 图上的占位标记 */
 .frame__tag {
@@ -1018,7 +1062,7 @@ a.todo { text-decoration: none; }
   border-radius: 999px;
   padding: 6px 15px;
   transition: color 0.3s var(--ease), border-color 0.3s var(--ease),
-    background-color 0.3s var(--ease);
+    background-color 0.3s var(--ease), transform var(--dur) var(--ease-spring);
 }
 .filters button i {
   font-family: var(--serif);
@@ -1028,7 +1072,12 @@ a.todo { text-decoration: none; }
   text-transform: uppercase;
   opacity: 0.75;
 }
-.filters button:hover { color: var(--ink); border-color: var(--line-2); }
+.filters button:hover {
+  color: var(--ink);
+  border-color: var(--line-2);
+  transform: translateY(-1px);
+}
+.filters button:active { transform: translateY(1px) scale(0.98); }
 .filters button[aria-pressed="true"] {
   color: var(--ink);
   border-color: var(--ink);
@@ -1106,7 +1155,12 @@ a.todo { text-decoration: none; }
   flex-direction: column;
   justify-content: space-between;
   gap: 18px;
+  transition: transform var(--dur) var(--ease-spring),
+    background-color var(--dur) var(--ease);
 }
+/* 悬停时便签微微抬起，胶带也跟着翘一下 */
+.mcard:hover { transform: translateY(calc(var(--lift) * -1)) rotate(-0.4deg); }
+.mcard:active { transform: translateY(0) rotate(-0.4deg) scale(0.996); }
 .mcard p:first-child {
   font-family: var(--hand);
   font-size: 1rem;
@@ -1218,15 +1272,33 @@ a.todo { text-decoration: none; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(16px, 2.4vw, 30px);
 }
+.gitem { transition: transform var(--dur) var(--ease-spring); }
+.gitem:hover { transform: translateY(calc(var(--lift) * -1)) rotate(0.4deg); }
+.gitem:active { transform: translateY(0) scale(0.997); }
 .gitem .cap { justify-content: flex-start; gap: 10px; align-items: center; }
 
 /* ---------- 12 motion & responsive ---------- */
+/* 入场：轻微缩放弹入（scale 0.99 → 1），不是纯淡入 */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transform: translateY(14px) scale(0.99);
+  transition: opacity var(--dur-slow) var(--ease),
+    transform var(--dur-slow) var(--ease-spring);
 }
 .js [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* 子项错峰弹入：class 由脚本在运行时加，所以脚本没跑时内容照常可见。
+   这里用 animation（而非 transition）来做，是为了不抢占 transform，
+   否则会和卡片的悬停抬起 / 轻微旋转打架 */
+.js .rv {
+  animation: rvPop var(--dur-slow) var(--ease-spring) backwards paused;
+}
+.js .rv.is-in { animation-play-state: running; }
+
+@keyframes rvPop {
+  from { opacity: 0; transform: translateY(12px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
 
 @media (max-width: 980px) {
   .hero { grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: start; }
@@ -1270,5 +1342,19 @@ a.todo { text-decoration: none; }
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
-  .js [data-reveal] { opacity: 1; transform: none; }
+  .js [data-reveal],
+  .js .rv { opacity: 1; transform: none; }
+  .js .rv { animation: none !important; }
+  /* 关掉所有悬停/按下的位移与旋转，只保留颜色反馈 */
+  .wcard:hover, .wcard:active,
+  .wcard:hover .frame,
+  .ph:hover .frame, .ph:active .frame,
+  .mcard:hover, .mcard:active,
+  .mcard:hover .tape--tl, .mcard:hover .tape--tr,
+  .gitem:hover, .gitem:active,
+  .pitem:hover, .pitem:active,
+  .filters button:hover, .filters button:active,
+  .tlink:active, .burger:active,
+  .lb__x:hover, .lb__x:active { transform: none; }
+  .tlink:hover::after { transform: none; }
 }

@@ -367,7 +367,7 @@ body[data-lock="true"] { overflow: hidden; }
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.06fr);
   gap: clamp(28px, 5vw, 76px);
   align-items: end;
-  padding-block: clamp(36px, 6vw, 84px) clamp(40px, 6vw, 76px);
+  padding-block: clamp(14px, 1.8vw, 24px) clamp(40px, 6vw, 76px);
 }
 .hero__text { padding-bottom: clamp(0px, 2vw, 20px); }
 .hero__title {

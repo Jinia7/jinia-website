@@ -478,6 +478,23 @@ body[data-lock="true"] { overflow: hidden; }
   text-transform: uppercase;
   color: var(--muted);
 }
+.band--fig {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+}
+.band__img { position: relative; }
+.band__img .frame { transform: rotate(1.2deg); }
+
+/* 装饰插画（手绘风，填空白栏位用） */
+.deco { margin: clamp(24px, 3vw, 36px) 0 0; }
+.deco .cap { margin-top: 12px; }
+
+@media (max-width: 880px) {
+  .band--fig { grid-template-columns: minmax(0, 1fr); }
+  .band--fig .band__img { max-width: 480px; }
+}
 
 /* ---------- 07 sections ---------- */
 .sec { padding-block: clamp(44px, 6vw, 88px); }
